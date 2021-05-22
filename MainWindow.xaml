@@ -11,7 +11,7 @@
             <StackPanel Width="800" Background="LightGray">
                 <TextBlock Height="200" Width="800" TextAlignment="Center" FontSize="125" Padding="5" FontWeight="Bold" Background="DimGray">MENU</TextBlock>
                 <Button x:Name="go_to_data_menu" Height="150" Width="200" FontSize="25" Margin="0,75,0,0" Padding="5" Background="SteelBlue" Click="go_to_data_menu_Click">Vis toevoegen</Button>
-                <Button x:Name="go_to_search_menu" Height="150" Width="200" FontSize="20" Margin="0,50,0,0" Padding="5" Background="SpringGreen">Gegevens opzoeken</Button>
+                <Button x:Name="go_to_search_menu" Height="150" Width="200" FontSize="20" Margin="0,50,0,0" Padding="5" Background="SpringGreen" Click="go_to_search_menu_Click">Gegevens opzoeken</Button>
                 <Button x:Name="afsluiten" Height="150" Width="200" FontSize="25" Margin="0,50,0,0" Padding="5" Background="Firebrick" Click="afsluiten_Click">Afsluiten</Button>
             </StackPanel>
         </ScrollViewer>
@@ -110,7 +110,7 @@
         <ScrollViewer x:Name="gegevens_menu" Visibility="Hidden">
             <StackPanel Background="LightGray">
                 <TextBlock Width="650" Height="55" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40" TextAlignment="Center" Margin="0,25,0,25" Background="DimGray" FontWeight="Bold">gegevens opzoeken</TextBlock>
-                <TextBlock>welke gegevens zoekt u</TextBlock>
+                <TextBlock Width="350" Height="75" FontSize="30" Padding="10" TextAlignment="Center">welke gegevens zoekt u</TextBlock>
             </StackPanel>
         </ScrollViewer>
     </Grid>

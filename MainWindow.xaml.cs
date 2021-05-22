@@ -158,6 +158,7 @@ namespace project
         {
             menu.Visibility = Visibility.Hidden;
             data_menu.Visibility = Visibility.Hidden;
+            gegevens_menu.Visibility = Visibility.Visible;
             clear_invoer();
         }
         private void tbx_rig_TextChanged(object sender, TextChangedEventArgs e)
@@ -245,6 +246,13 @@ namespace project
                     return;
                 }
             }
+        }
+
+        private void go_to_search_menu_Click(object sender, RoutedEventArgs e)
+        {
+            menu.Visibility = Visibility.Hidden;
+            data_menu.Visibility = Visibility.Hidden;
+            gegevens_menu.Visibility = Visibility.Visible;
         }
     }
 }

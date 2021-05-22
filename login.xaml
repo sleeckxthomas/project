@@ -7,14 +7,14 @@
         mc:Ignorable="d"
     Title="login" Height="600" Width="500">
     <Grid>
-        <ScrollViewer x:Name="begin_login" Visibility="Visible">
+        <ScrollViewer x:Name="begin_login" Visibility="Hidden">
             <StackPanel Width="500" Background="LightGray">
                 <TextBlock Height="120" Width="500" TextAlignment="Center" VerticalAlignment="Center" FontSize="70" Background="DimGray" FontWeight="Bold" Padding="5">login</TextBlock>
                 <Button x:Name="inlog_button" Height="120" Width="150" Margin="0,75,0,0" FontSize="35" Click="inlog_button_Click" Background="Green">inloggen</Button>
                 <Button x:Name="afsluit_button" Height="120" Width="150" Margin="0,75,0,0" FontSize="35" Click="afsluit_button_Click" Background="Red">afsluiten</Button>
             </StackPanel>
         </ScrollViewer>
-        <ScrollViewer x:Name="login_menu" Visibility="Hidden">
+        <ScrollViewer x:Name="login_menu" Visibility="Visible">
             <StackPanel Width="500" Background="LightGray">
                 <TextBlock Height="120" Width="500" TextAlignment="Center" VerticalAlignment="Center" FontSize="70" Background="DimGray" FontWeight="Bold" Padding="5">login</TextBlock>
                 <TextBlock Height="30" Width="250" FontSize="20" TextAlignment="Center" Margin="0,100,0,0" >gebruikersnaam</TextBlock>
