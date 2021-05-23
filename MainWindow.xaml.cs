@@ -133,12 +133,12 @@ namespace project
         }
         private void clear_invoer()
         {
-            combo_karper.Items.Clear();
-            combo_seizoen.Items.Clear();
-            combo_gemeente.Items.Clear();
-            combo_seizoen.Items.Clear();
-            combo_wind.Items.Clear();
-            combo_baiting.Items.Clear();
+            combo_karper.SelectedIndex = -1;
+            combo_seizoen.SelectedIndex = -1;
+            combo_gemeente.SelectedIndex = -1;
+            combo_seizoen.SelectedIndex = -1;
+            combo_wind.SelectedIndex = -1;
+            combo_baiting.SelectedIndex = -1;
 
             tbx_naam_karper.Clear();
             tbx_water.Clear();
@@ -253,6 +253,43 @@ namespace project
             menu.Visibility = Visibility.Hidden;
             data_menu.Visibility = Visibility.Hidden;
             gegevens_menu.Visibility = Visibility.Visible;
+        }
+
+        private void cbx_kiezen_data_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            using (var db = new ShopContext())
+            {
+                Debug.WriteLine(cbx_kiezen_data.Text);
+                if (cbx_kiezen_data.Text == "type karper")
+                {
+                    cmb_detail_keuze_selectie.Visibility = Visibility.Visible;
+                    var type_karper = db.karpers.Select(k => k.type_karper).Where(k => k != "");
+                    foreach (var karpers in type_karper)
+                    {
+                        cmb_detail_keuze_selectie.Items.Add(karpers);
+                    }
+                }
+                else if (cbx_kiezen_data.Text == "naam karper")
+                {
+
+                }
+                else if (cbx_kiezen_data.Text == "gewicht")
+                {
+
+                }
+                else if (cbx_kiezen_data.Text == "seizoen")
+                {
+
+                }
+                else if (cbx_kiezen_data.Text == "naam water")
+                {
+
+                }
+                else if (cbx_kiezen_data.Text == "gemeente")
+                {
+
+                }
+            }
         }
     }
 }

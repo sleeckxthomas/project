@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="950" Width="800" Loaded="Window_Loaded">
     <Grid>
-        <ScrollViewer x:Name="menu" Visibility="Visible" >
+        <ScrollViewer x:Name="menu" Visibility="Hidden" >
             <StackPanel Width="800" Background="LightGray">
                 <TextBlock Height="200" Width="800" TextAlignment="Center" FontSize="125" Padding="5" FontWeight="Bold" Background="DimGray">MENU</TextBlock>
                 <Button x:Name="go_to_data_menu" Height="150" Width="200" FontSize="25" Margin="0,75,0,0" Padding="5" Background="SteelBlue" Click="go_to_data_menu_Click">Vis toevoegen</Button>
@@ -15,7 +15,7 @@
                 <Button x:Name="afsluiten" Height="150" Width="200" FontSize="25" Margin="0,50,0,0" Padding="5" Background="Firebrick" Click="afsluiten_Click">Afsluiten</Button>
             </StackPanel>
         </ScrollViewer>
-        <ScrollViewer x:Name="data_menu" Visibility="Hidden">
+        <ScrollViewer x:Name="data_menu" Visibility="Visible">
             <StackPanel Background="LightGray">
                 <TextBlock Height="55" Width="650" Margin="0,25,0,25" FontSize="40" TextAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Visibility="Visible" Background="DimGray">Gegevens invoer</TextBlock>
                 <StackPanel Orientation="Horizontal"  Height="35" Width="650">
@@ -111,6 +111,16 @@
             <StackPanel Background="LightGray">
                 <TextBlock Width="650" Height="55" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40" TextAlignment="Center" Margin="0,25,0,25" Background="DimGray" FontWeight="Bold">gegevens opzoeken</TextBlock>
                 <TextBlock Width="350" Height="75" FontSize="30" Padding="10" TextAlignment="Center">welke gegevens zoekt u</TextBlock>
+                <ComboBox x:Name="cbx_kiezen_data" Height="50" Width="250" Margin="0,20,0,0" FontSize="15" Padding="5" SelectionChanged="cbx_kiezen_data_SelectionChanged">
+                    <ComboBoxItem Padding="10" HorizontalAlignment="Center" Width="250" FontSize="15">type karper</ComboBoxItem>
+                    <ComboBoxItem Padding="10" HorizontalAlignment="Center" Width="250" FontSize="15">naam karper</ComboBoxItem>
+                    <ComboBoxItem Padding="10" HorizontalAlignment="Center" Width="250" FontSize="15">gewicht</ComboBoxItem>
+                    <ComboBoxItem Padding="10" HorizontalAlignment="Center" Width="250" FontSize="15">seizoen</ComboBoxItem>
+                    <ComboBoxItem Padding="10" HorizontalAlignment="Center" Width="250" FontSize="15">naam water</ComboBoxItem>
+                    <ComboBoxItem Padding="10" HorizontalAlignment="Center" Width="250" FontSize="15">gemeente</ComboBoxItem>
+                </ComboBox>
+                <TextBlock x:Name="tbx_detail_keuze" Height="50" Width="250" Margin="0,5,0,0" Visibility="Hidden"></TextBlock>
+                <ComboBox x:Name="cmb_detail_keuze_selectie" Height="50" Width="250" Margin="0,5,0,0" Visibility="Hidden"></ComboBox>
             </StackPanel>
         </ScrollViewer>
     </Grid>
