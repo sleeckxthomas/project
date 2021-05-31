@@ -270,7 +270,7 @@ namespace project
                     var type_karper = db.karpers.Select(k => k.type_karper).Where(k => k != "");
                     foreach (var karpers in type_karper)
                     {
-
+                        if(!cmb_detail_keuze_selectie.Items.Contains(karpers))
                         cmb_detail_keuze_selectie.Items.Add(karpers);
                     }
 
@@ -285,6 +285,7 @@ namespace project
                     var naam_karper = db.karpers.Select(k => k.naam_karper).Where(k => k != "");
                     foreach (var naam in naam_karper)
                     {
+                        if(!cmb_detail_keuze_selectie.Items.Contains(naam))
                         cmb_detail_keuze_selectie.Items.Add(naam);
                     }
                 }
@@ -311,6 +312,7 @@ namespace project
                     var seizoen = db.registraties.Select(k => k.seizoen).Where(k => k != "");
                     foreach (var weer in seizoen)
                     {
+                        if(!cmb_detail_keuze_selectie.Items.Contains(weer))
                         cmb_detail_keuze_selectie.Items.Add(weer);
                     }
                 }
@@ -321,10 +323,10 @@ namespace project
                     cmb_detail_keuze_selectie.Visibility = Visibility.Visible;
                     tbx_detail_keuze.Text = "welk water zoekt u?";
                     var naam_water = db.waters.Select(k => k.naam).Where(k => k != "");
-                    foreach (var karpers in naam_water)
+                    foreach (var naam in naam_water)
                     {
-                        
-                        cmb_detail_keuze_selectie.Items.Add(karpers);
+                        if (!cmb_detail_keuze_selectie.Items.Contains(naam))
+                            cmb_detail_keuze_selectie.Items.Add(naam);
                     }
                 }
                 else if (text == "gemeente")
