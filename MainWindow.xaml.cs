@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SQLite;
-
+using System.ComponentModel;
 
 namespace project
 {
@@ -29,6 +29,7 @@ namespace project
         private List<karper> karpers { get; set; } = new List<karper> { };
         private List<water> waters { get; set; } = new List<water> { };
         private List<vangst> vangsten { get; set; } = new List<vangst> { };
+
         public MainWindow()
         {
             InitializeComponent();
@@ -135,11 +136,11 @@ namespace project
         {
             combo_karper.SelectedIndex = -1;
             combo_seizoen.SelectedIndex = -1;
-            combo_gemeente.SelectedIndex = -1;
+            combo_gemeente.SelectedIndex = 1448;
             combo_seizoen.SelectedIndex = -1;
             combo_wind.SelectedIndex = -1;
             combo_baiting.SelectedIndex = -1;
-
+            datum_kiezer.SelectedDate = DateTime.Now;
             tbx_naam_karper.Clear();
             tbx_water.Clear();
             tbx_gewicht.Clear();
@@ -259,35 +260,257 @@ namespace project
         {
             using (var db = new ShopContext())
             {
-                Debug.WriteLine(cbx_kiezen_data.Text);
-                if (cbx_kiezen_data.Text == "type karper")
+                string text = ((sender as ComboBox).SelectedItem as ComboBoxItem).Content as string;
+                if (text == "type karper")
                 {
+                    cmb_detail_keuze_selectie.Items.Clear();
                     cmb_detail_keuze_selectie.Visibility = Visibility.Visible;
+                    tbx_detail_keuze.Visibility = Visibility.Visible;
+                    tbx_detail_keuze.Text = "welke type wilt u opzoeken?";
                     var type_karper = db.karpers.Select(k => k.type_karper).Where(k => k != "");
                     foreach (var karpers in type_karper)
                     {
+
+                        cmb_detail_keuze_selectie.Items.Add(karpers);
+                    }
+
+                }
+                else if (text == "naam karper")
+                {
+                    cmb_detail_keuze_selectie.Items.Clear();
+
+                    cmb_detail_keuze_selectie.Visibility = Visibility.Visible;
+                    tbx_detail_keuze.Visibility = Visibility.Visible;
+                    tbx_detail_keuze.Text = "welke karper zoekt u?";
+                    var naam_karper = db.karpers.Select(k => k.naam_karper).Where(k => k != "");
+                    foreach (var naam in naam_karper)
+                    {
+                        cmb_detail_keuze_selectie.Items.Add(naam);
+                    }
+                }
+                else if (text == "gewicht")
+                {
+                    cmb_detail_keuze_selectie.Items.Clear();
+                    cmb_detail_keuze_selectie.Visibility = Visibility.Visible;
+                    cmb_detail_keuze_selectie.Visibility = Visibility.Visible;
+                    tbx_detail_keuze.Text = "in welk gewichtsklasse zoekt u?";
+                    var gewicht = db.karpers.Select(k => k.gewicht).Where(k => k != 0);
+                    cmb_detail_keuze_selectie.Items.Add("0-5 kg");
+                    cmb_detail_keuze_selectie.Items.Add("5-10 kg");
+                    cmb_detail_keuze_selectie.Items.Add("10-15 kg");
+                    cmb_detail_keuze_selectie.Items.Add("15-20 kg");
+                    cmb_detail_keuze_selectie.Items.Add("20-25 kg");
+                    cmb_detail_keuze_selectie.Items.Add("25+ kg");
+                }
+                else if (text == "seizoen")
+                {
+                    cmb_detail_keuze_selectie.Items.Clear();
+                    cmb_detail_keuze_selectie.Visibility = Visibility.Visible;
+                    cmb_detail_keuze_selectie.Visibility = Visibility.Visible;
+                    tbx_detail_keuze.Text = "in welk seizoen wilt u zoeken?";
+                    var seizoen = db.registraties.Select(k => k.seizoen).Where(k => k != "");
+                    foreach (var weer in seizoen)
+                    {
+                        cmb_detail_keuze_selectie.Items.Add(weer);
+                    }
+                }
+                else if (text == "naam water")
+                {
+                    cmb_detail_keuze_selectie.Items.Clear();
+                    cmb_detail_keuze_selectie.Visibility = Visibility.Visible;
+                    cmb_detail_keuze_selectie.Visibility = Visibility.Visible;
+                    tbx_detail_keuze.Text = "welk water zoekt u?";
+                    var naam_water = db.waters.Select(k => k.naam).Where(k => k != "");
+                    foreach (var karpers in naam_water)
+                    {
+                        
                         cmb_detail_keuze_selectie.Items.Add(karpers);
                     }
                 }
-                else if (cbx_kiezen_data.Text == "naam karper")
+                else if (text == "gemeente")
                 {
-
+                    cmb_detail_keuze_selectie.Items.Clear();
+                    cmb_detail_keuze_selectie.Visibility = Visibility.Visible;
+                    cmb_detail_keuze_selectie.Visibility = Visibility.Visible;
+                    tbx_detail_keuze.Text = "welke gemeente zoekt u?";
+                    var plaats = db.waters.Where(k => k.gemeente_id != null);
+                    foreach (var karper_plaats in plaats)
+                    {
+                        var gemeente_naam = db.gemeentes.Where(g => g.gemeente_id == karper_plaats.gemeente_id).First();
+                        if(!cmb_detail_keuze_selectie.Items.Contains(gemeente_naam.gemeente_naam))
+                        cmb_detail_keuze_selectie.Items.Add(gemeente_naam.gemeente_naam);
+                    }
                 }
-                else if (cbx_kiezen_data.Text == "gewicht")
-                {
+            }
+        }
 
-                }
-                else if (cbx_kiezen_data.Text == "seizoen")
-                {
+        private void naar_menu_Click(object sender, RoutedEventArgs e)
+        {
+            gegevens_menu.Visibility = Visibility.Hidden;
+            menu.Visibility = Visibility.Visible;
+        }
 
-                }
-                else if (cbx_kiezen_data.Text == "naam water")
-                {
+        private void naar_data_menu_Click(object sender, RoutedEventArgs e)
+        {
+            gegevens_menu.Visibility = Visibility.Hidden;
+            data_menu.Visibility = Visibility.Visible;
+        }
 
-                }
-                else if (cbx_kiezen_data.Text == "gemeente")
+        private void cmb_detail_keuze_selectie_DropDownClosed(object sender, EventArgs e)
+        {
+            if(cmb_detail_keuze_selectie.SelectedIndex != -1) 
+            {
+                using (var db = new ShopContext())
                 {
+                    //string text = ((sender as ComboBox).SelectedItem as ComboBoxItem).Content as string;
+                    if (cbx_kiezen_data.Text == "type karper")
+                    {
+                        List<data_karper> items = new List<data_karper>();
+                        var karpers = db.karpers.Where(k => k.type_karper == cmb_detail_keuze_selectie.Text);
+                        foreach (var k in karpers)
+                        {
+                            var water = db.waters.Where(w => w.water_id == k.karper_id).First();
+                            var gemeente = db.gemeentes.Where(g => g.gemeente_id == water.gemeente_id).First();
+                            var registratie = db.registraties.Where(r => r.registratie_id == k.karper_id).First();
+                            items.Add(new data_karper() { type_karper = k.type_karper, naam_karper = k.naam_karper, gewicht = k.gewicht, seizoen = registratie.seizoen, gemeente_naam = gemeente.gemeente_naam, water_naam = water.naam });
+                        }
+                        lvw_data.ItemsSource = items;
+                    }
+                    else if (cbx_kiezen_data.Text == "naam karper")
+                    {
+                        List<data_karper> items = new List<data_karper>();
+                        var karpers = db.karpers.Where(k => k.naam_karper == cmb_detail_keuze_selectie.Text);
+                        foreach (var k in karpers)
+                        {
+                            var water = db.waters.Where(w => w.water_id == k.karper_id).First();
+                            var gemeente = db.gemeentes.Where(g => g.gemeente_id == water.gemeente_id).First();
+                            var registratie = db.registraties.Where(r => r.registratie_id == k.karper_id).First();
+                            items.Add(new data_karper() { type_karper = k.type_karper, naam_karper = k.naam_karper, gewicht = k.gewicht, seizoen = registratie.seizoen, water_naam = water.naam, gemeente_naam = gemeente.gemeente_naam });
+                        }
+                        lvw_data.ItemsSource = items;
+                    }
+                    else if(cbx_kiezen_data.Text == "gewicht")
+                    {
+                        List<data_karper> items = new List<data_karper>();
+                        if(cmb_detail_keuze_selectie.Text == "0-5 kg")
+                        {
+                            var gewicht = db.karpers.Where(g => g.gewicht >= 0 && g.gewicht <= 5);
+                            foreach(var g in gewicht)
+                            {
+                                var water = db.waters.Where(w => w.water_id == g.karper_id).First();
+                                var gemeente = db.gemeentes.Where(g => g.gemeente_id == water.gemeente_id).First();
+                                var registratie = db.registraties.Where(r => r.registratie_id == g.karper_id).First();
+                                items.Add(new data_karper() { type_karper = g.type_karper, naam_karper = g.naam_karper, gewicht = g.gewicht, seizoen = registratie.seizoen, gemeente_naam = gemeente.gemeente_naam, water_naam = water.naam });
+                            }
+                            lvw_data.ItemsSource = items;
+                        }
+                        else if (cmb_detail_keuze_selectie.Text == "5-10 kg")
+                        {
+                            var gewicht = db.karpers.Where(g => g.gewicht >= 5 && g.gewicht <= 10);
+                            foreach (var g in gewicht)
+                            {
+                                var water = db.waters.Where(w => w.water_id == g.karper_id).First();
+                                var gemeente = db.gemeentes.Where(g => g.gemeente_id == water.gemeente_id).First();
+                                var registratie = db.registraties.Where(r => r.registratie_id == g.karper_id).First();
+                                items.Add(new data_karper() { type_karper = g.type_karper, naam_karper = g.naam_karper, gewicht = g.gewicht, seizoen = registratie.seizoen, gemeente_naam = gemeente.gemeente_naam, water_naam = water.naam });
+                            }
+                            lvw_data.ItemsSource = items;
+                        }
+                        else if (cmb_detail_keuze_selectie.Text == "10-15 kg")
+                        {
+                            var gewicht = db.karpers.Where(g => g.gewicht >= 10 && g.gewicht <= 15);
+                            foreach (var g in gewicht)
+                            {
+                                var water = db.waters.Where(w => w.water_id == g.karper_id).First();
+                                var gemeente = db.gemeentes.Where(g => g.gemeente_id == water.gemeente_id).First();
+                                var registratie = db.registraties.Where(r => r.registratie_id == g.karper_id).First();
+                                items.Add(new data_karper() { type_karper = g.type_karper, naam_karper = g.naam_karper, gewicht = g.gewicht, seizoen = registratie.seizoen, gemeente_naam = gemeente.gemeente_naam, water_naam = water.naam });
+                            }
+                            lvw_data.ItemsSource = items;
+                        }
+                        else if (cmb_detail_keuze_selectie.Text == "15-20 kg")
+                        {
+                            var gewicht = db.karpers.Where(g => g.gewicht >= 15 && g.gewicht <= 20);
+                            foreach (var g in gewicht)
+                            {
+                                var water = db.waters.Where(w => w.water_id == g.karper_id).First();
+                                var gemeente = db.gemeentes.Where(g => g.gemeente_id == water.gemeente_id).First();
+                                var registratie = db.registraties.Where(r => r.registratie_id == g.karper_id).First();
+                                items.Add(new data_karper() { type_karper = g.type_karper, naam_karper = g.naam_karper, gewicht = g.gewicht, seizoen = registratie.seizoen, gemeente_naam = gemeente.gemeente_naam, water_naam = water.naam });
+                            }
+                            lvw_data.ItemsSource = items;
+                        }
+                        else if (cmb_detail_keuze_selectie.Text == "20-25 kg")
+                        {
+                            var gewicht = db.karpers.Where(g => g.gewicht >= 20 && g.gewicht <= 25);
+                            foreach (var g in gewicht)
+                            {
+                                var water = db.waters.Where(w => w.water_id == g.karper_id).First();
+                                var gemeente = db.gemeentes.Where(g => g.gemeente_id == water.gemeente_id).First();
+                                var registratie = db.registraties.Where(r => r.registratie_id == g.karper_id).First();
+                                items.Add(new data_karper() { type_karper = g.type_karper, naam_karper = g.naam_karper, gewicht = g.gewicht, seizoen = registratie.seizoen, gemeente_naam = gemeente.gemeente_naam, water_naam = water.naam });
+                            }
+                            lvw_data.ItemsSource = items;
+                        }
+                        else if (cmb_detail_keuze_selectie.Text == "25+ kg")
+                        {
+                            var gewicht = db.karpers.Where(g => g.gewicht >= 25);
+                            foreach (var g in gewicht)
+                            {
+                                var water = db.waters.Where(w => w.water_id == g.karper_id).First();
+                                var gemeente = db.gemeentes.Where(g => g.gemeente_id == water.gemeente_id).First();
+                                var registratie = db.registraties.Where(r => r.registratie_id == g.karper_id).First();
+                                items.Add(new data_karper() { type_karper = g.type_karper, naam_karper = g.naam_karper, gewicht = g.gewicht, seizoen = registratie.seizoen, gemeente_naam = gemeente.gemeente_naam, water_naam = water.naam });
+                            }
+                            lvw_data.ItemsSource = items;
+                        }
+                        else
+                        {
+                            lvw_data.ItemsSource = null;
+                        }
+                    }
+                    else if (cbx_kiezen_data.Text == "seizoen")
+                    {
+                        List<data_karper> items = new List<data_karper>();
+                        var registratie = db.registraties.Where(r => r.seizoen == cmb_detail_keuze_selectie.Text);
+                        foreach (var r in registratie)
+                        {
+                            var water = db.waters.Where(w => w.water_id == r.registratie_id).First();
+                            var gemeente = db.gemeentes.Where(g => g.gemeente_id == water.gemeente_id).First();
+                            var karper = db.karpers.Where(k => k.karper_id == r.registratie_id).First();
+                            
+                            items.Add(new data_karper() { type_karper = karper.type_karper, naam_karper = karper.naam_karper, gewicht = karper.gewicht, seizoen = r.seizoen, water_naam = water.naam, gemeente_naam = gemeente.gemeente_naam });
+                        }
+                        lvw_data.ItemsSource = items;
+                    }
+                    else if(cbx_kiezen_data.Text == "naam water")
+                    {
+                        List<data_karper> items = new List<data_karper>();
+                        var water = db.waters.Where(w => w.naam == cmb_detail_keuze_selectie.Text);
+                        foreach (var w in water)
+                        {
+                            var wat = db.waters.Where(wa => wa.water_id == w.water_id).First();
+                            var gemeente = db.gemeentes.Where(g => g.gemeente_id == wat.gemeente_id).First();
+                            var karper = db.karpers.Where(k => k.karper_id == w.water_id).First();
+                            var registratie = db.registraties.Where(r => r.registratie_id == w.water_id).First();
+                            items.Add(new data_karper() {gemeente_naam = gemeente.gemeente_naam, water_naam = w.naam, type_karper = karper.type_karper, naam_karper = karper.naam_karper, gewicht = karper.gewicht, seizoen = registratie.seizoen});
+                        }
+                        lvw_data.ItemsSource = items;
+                    }
+                    else if (cbx_kiezen_data.Text == "gemeente")
+                    {
+                        List<data_karper> items = new List<data_karper>();
+                        var gemeente = db.gemeentes.Where(g => g.gemeente_naam == cmb_detail_keuze_selectie.Text).First();
+                        var water = db.waters.Where(w => w.gemeente_id == gemeente.gemeente_id);
+                        foreach (var w in water)
+                        {
+                            var karper = db.karpers.Where(k => k.karper_id == w.water_id).First();
+                            var registratie = db.registraties.Where(r => r.registratie_id == w.water_id).First();
+                            items.Add(new data_karper() {water_naam = w.naam, gemeente_naam = gemeente.gemeente_naam, type_karper = karper.type_karper, naam_karper = karper.naam_karper, gewicht = karper.gewicht, seizoen = registratie.seizoen});
+                        }
+                        lvw_data.ItemsSource = items;
 
+                    }
                 }
             }
         }
